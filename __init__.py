@@ -59,7 +59,8 @@ def read_coords(file, format="xyz"):
         raise ValueError
     return atom_str
 
-def extract_coords(logfile, remark="", ofile=None, format="xyz"):
+def extract_coords(logfile, remark="", ofile=None, 
+                   unit='Angstrom', format="xyz"):
     r"""
     generate coordinate files from a log file of a geometric optimization run
 
@@ -67,6 +68,7 @@ def extract_coords(logfile, remark="", ofile=None, format="xyz"):
     remark  : opt input, a short comment/explanation added to the file
               should not contain '\n'
     ofile   : opt input, file object or filename
+    unit    : opt input, unit of coordinates
     format  : opt input, def=xyz, the only accepted format
     coords  : out, string that could be written as a coordinate file
     """
@@ -83,7 +85,17 @@ def extract_coords(logfile, remark="", ofile=None, format="xyz"):
             idx, coord = log[i].split(None, 1) # rm 1st word
             try:
                 if int(idx) == natom + 1:
-                    coords += coord
+                    if unit is None or unit in ["A", "AA", "Angstrom"]:
+                        elem, pos = coord.split(None, 1)
+                        coords += "{:4s} {:16.12f} {:16.12f} {:16.12f}\n" \
+                                .format(elem,  
+                                        *[float(x) * bohr for x in pos.split()])
+                    elif unit in ["B", "Bohr"]:
+                        coords += coord
+                    else:
+                        print("extract_coords: arg unit=", unit, 
+                                "is not recognized", file=stderr)
+                        raise ValueError
                     natom += 1
             except:
                 break

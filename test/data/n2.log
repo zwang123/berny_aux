@@ -1,0 +1,394 @@
+#INFO: **** input file is  ****
+#!/usr/bin/env python
+
+'''
+Use pyberny to get the molecular equilibrium geometry.
+'''
+
+from pyscf import gto, scf
+from pyscf.geomopt import berny_solver
+
+mol = gto.M(atom='N 0 0 0; N 0 0 1.2', basis='ccpvdz', verbose=4)
+mf = scf.RHF(mol)
+
+mol_eq = berny_solver.optimize(mf)
+print(mol_eq.atom_coords())
+#INFO: ******************** input file end ********************
+
+
+System: 
+Python 3.7.0 (default, Jul 12 2018, 18:15:30) 
+[GCC Intel(R) C++ gcc 6.3 mode]
+numpy 1.14.5  scipy 1.1.0
+Date: Sat Sep  1 22:49:15 2018
+PySCF version 1.5.2
+PySCF path  
+
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 2
+[INPUT] num. electrons = 14
+[INPUT] charge = 0
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT]  1 N      0.000000000000   0.000000000000   0.000000000000 AA    0.000000000000   0.000000000000   0.000000000000 Bohr
+[INPUT]  2 N      0.000000000000   0.000000000000   1.200000000000 AA    0.000000000000   0.000000000000   2.267671349478 Bohr
+
+nuclear repulsion = 21.6080694459
+number of shells = 10
+number of NR pGTOs = 52
+number of NR cGTOs = 28
+basis = ccpvdz
+ecp = {}
+CPU time:         1.04
+Create scanner for <class 'pyscf.grad.rhf.Gradients'>
+Create scanner for <class 'pyscf.scf.hf.RHF'>
+0 Internal coordinates:
+0 * Number of fragments: 1
+0 * Number of internal coordinates: 1
+0 * Number of strong bonds: 1
+New geometry (unit Bohr)
+   1 N      0.000000000000   0.000000000000   0.000000000000
+   2 N      0.000000000000   0.000000000000   2.267671349478
+
+
+******** <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> flags ********
+method = SCF_Scanner-RHF
+initial guess = minao
+damping factor = 0
+level shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+DIIS start cycle = 1
+DIIS space = 8
+SCF tol = 1e-09
+SCF gradient tol = None
+max. SCF cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = 
+max_memory 4000 MB (current use 99 MB)
+Set gradient conv threshold to 3.16228e-05
+init E= -108.66592453301
+  HOMO = -0.362319032947155  LUMO = 0.0332103891978531
+cycle= 1 E= -108.891321627058  delta_E= -0.225  |g|= 0.304  |ddm|= 1.69
+  HOMO = -0.614908525636467  LUMO = 0.0817082857779511
+cycle= 2 E= -108.912607725096  delta_E= -0.0213  |g|= 0.0711  |ddm|= 0.268
+  HOMO = -0.564780066399266  LUMO = 0.127429374616615
+cycle= 3 E= -108.913961733218  delta_E= -0.00135  |g|= 0.0153  |ddm|= 0.0586
+  HOMO = -0.568815120801099  LUMO = 0.12436323444516
+cycle= 4 E= -108.914051730914  delta_E= -9e-05  |g|= 0.000948  |ddm|= 0.0226
+  HOMO = -0.568349521589317  LUMO = 0.124840750018991
+cycle= 5 E= -108.914051971126  delta_E= -2.4e-07  |g|= 0.000108  |ddm|= 0.00102
+  HOMO = -0.568349741566253  LUMO = 0.124836315935474
+cycle= 6 E= -108.914051974998  delta_E= -3.87e-09  |g|= 1.12e-05  |ddm|= 0.000136
+  HOMO = -0.568345210845306  LUMO = 0.124840410918816
+cycle= 7 E= -108.914051975051  delta_E= -5.28e-11  |g|= 1.49e-06  |ddm|= 2.99e-05
+  HOMO = -0.568344951713542  LUMO = 0.124840503813146
+Extra cycle  E= -108.914051975052  delta_E= -9.66e-13  |g|= 4.35e-07  |ddm|= 2.84e-06
+converged SCF energy = -108.914051975052
+
+
+******** <class 'pyscf.grad.rhf.as_scanner.<locals>.SCF_GradScanner'> for <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> ********
+max_memory 4000 MB (current use 106 MB)
+--------------- SCF_Scanner gradients ---------------
+         x                y                z
+0 N    -0.0000000000    -0.0000000000    -0.3121321959
+1 N     0.0000000000     0.0000000000     0.3121321959
+----------------------------------------------
+1 Energy: -108.914051975
+1 Minimization on sphere was performed:
+1 * Trust radius: 0.3
+1 * Number of negative eigenvalues: 0
+1 * Lowest eigenvalue: 0.55
+1 * lambda: -0.491
+1 Quadratic step: RMS: 0.3, max: 0.3
+1 * Predicted energy change: -0.0689
+1 Total step: RMS: 0.3, max: 0.3
+1 Perfect transformation to cartesians in 2 iterations
+1 * RMS(dcart): 2.27e-17, RMS(dq): 4.44e-16
+1 Convergence criteria:
+1 * Gradient RMS: 0.18 > 0.0003 => no
+1 * Gradient maximum: 0.312 > 0.00045 => no
+1 * Step RMS: 0.3 > 0.0012 => no
+1 * Step maximum: 0.3 > 0.0018 => no
+New geometry (unit Bohr)
+   1 N      0.000000000000   0.000000000000   0.150000000000
+   2 N      0.000000000000   0.000000000000   2.117671349478
+
+
+******** <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> flags ********
+method = SCF_Scanner-RHF
+initial guess = minao
+damping factor = 0
+level shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+DIIS start cycle = 1
+DIIS space = 8
+SCF tol = 1e-09
+SCF gradient tol = None
+max. SCF cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = 
+max_memory 4000 MB (current use 106 MB)
+Set gradient conv threshold to 3.16228e-05
+init E= -109.250813245958
+  HOMO = -0.505954555530964  LUMO = 0.309540371553303
+cycle= 1 E= -108.946152747605  delta_E= 0.305  |g|= 0.134  |ddm|= 0.25
+  HOMO = -0.650042927671374  LUMO = 0.188130771215731
+cycle= 2 E= -108.950253859295  delta_E= -0.0041  |g|= 0.0324  |ddm|= 0.123
+  HOMO = -0.629616078001953  LUMO = 0.207434572665824
+cycle= 3 E= -108.950474628788  delta_E= -0.000221  |g|= 0.00329  |ddm|= 0.0299
+  HOMO = -0.630842181269122  LUMO = 0.206607112086305
+cycle= 4 E= -108.950478273657  delta_E= -3.64e-06  |g|= 0.000214  |ddm|= 0.00513
+  HOMO = -0.630722452390349  LUMO = 0.206699005139609
+cycle= 5 E= -108.950478288865  delta_E= -1.52e-08  |g|= 1.98e-05  |ddm|= 0.00078
+  HOMO = -0.630730917836008  LUMO = 0.206690866755505
+cycle= 6 E= -108.950478289006  delta_E= -1.41e-10  |g|= 3.3e-06  |ddm|= 0.000145
+  HOMO = -0.630730811733121  LUMO = 0.206690537831342
+Extra cycle  E= -108.95047828901  delta_E= -3.98e-12  |g|= 9.43e-07  |ddm|= 1.54e-05
+converged SCF energy = -108.95047828901
+
+
+******** <class 'pyscf.grad.rhf.as_scanner.<locals>.SCF_GradScanner'> for <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> ********
+max_memory 4000 MB (current use 106 MB)
+--------------- SCF_Scanner gradients ---------------
+         x                y                z
+0 N    -0.0000000000     0.0000000000     0.1553466138
+1 N     0.0000000000    -0.0000000000    -0.1553466138
+----------------------------------------------
+2 Energy: -108.950478289
+2 Hessian update information:
+2 * Change: RMS: 1.01, max: 1.01
+2 Trust update: Fletcher's parameter: 0.529
+2 Linear interpolation:
+2 * Energies: -108.95048, -108.91405
+2 * Derivatives: -0.0466, 0.0936
+2 * Quartic interpolation was performed: t = 0.23
+2 * Interpolated energy: -108.95564
+2 Pure RFO step was performed:
+2 * Trust radius: 0.3
+2 * Number of negative eigenvalues: 0
+2 * Lowest eigenvalue: 1.56
+2 * lambda: -0.00148
+2 Quadratic step: RMS: 0.0308, max: 0.0308
+2 * Predicted energy change: -0.000739
+2 Total step: RMS: 0.0997, max: 0.0997
+2 Perfect transformation to cartesians in 2 iterations
+2 * RMS(dcart): 1.03e-16, RMS(dq): 4.44e-16
+2 Convergence criteria:
+2 * Gradient RMS: 0.0897 > 0.0003 => no
+2 * Gradient maximum: 0.155 > 0.00045 => no
+2 * Step RMS: 0.0997 > 0.0012 => no
+2 * Step maximum: 0.0997 > 0.0018 => no
+New geometry (unit Bohr)
+   1 N      0.000000000000   0.000000000000   0.100168496581
+   2 N      0.000000000000   0.000000000000   2.167502852897
+
+
+******** <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> flags ********
+method = SCF_Scanner-RHF
+initial guess = minao
+damping factor = 0
+level shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+DIIS start cycle = 1
+DIIS space = 8
+SCF tol = 1e-09
+SCF gradient tol = None
+max. SCF cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = 
+max_memory 4000 MB (current use 106 MB)
+Set gradient conv threshold to 3.16228e-05
+init E= -108.863950627873
+  HOMO = -0.643102565987626  LUMO = 0.140452654764465
+cycle= 1 E= -108.9540916847  delta_E= -0.0901  |g|= 0.045  |ddm|= 0.0811
+  HOMO = -0.602187619350542  LUMO = 0.183885752199524
+cycle= 2 E= -108.954567655286  delta_E= -0.000476  |g|= 0.0109  |ddm|= 0.0399
+  HOMO = -0.61010811415635  LUMO = 0.177345032265765
+cycle= 3 E= -108.954593037304  delta_E= -2.54e-05  |g|= 0.00124  |ddm|= 0.00969
+  HOMO = -0.609711029947807  LUMO = 0.177656727992857
+cycle= 4 E= -108.954593581716  delta_E= -5.44e-07  |g|= 8.15e-05  |ddm|= 0.00178
+  HOMO = -0.609738689973121  LUMO = 0.177621609628578
+cycle= 5 E= -108.954593583775  delta_E= -2.06e-09  |g|= 7.49e-06  |ddm|= 0.000278
+  HOMO = -0.609734889464598  LUMO = 0.177624733228928
+cycle= 6 E= -108.954593583793  delta_E= -1.78e-11  |g|= 1.18e-06  |ddm|= 5.06e-05
+  HOMO = -0.609734817556876  LUMO = 0.177624702249186
+Extra cycle  E= -108.954593583793  delta_E= -4.55e-13  |g|= 3.24e-07  |ddm|= 5.5e-06
+converged SCF energy = -108.954593583793
+
+
+******** <class 'pyscf.grad.rhf.as_scanner.<locals>.SCF_GradScanner'> for <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> ********
+max_memory 4000 MB (current use 106 MB)
+--------------- SCF_Scanner gradients ---------------
+         x                y                z
+0 N     0.0000000000     0.0000000000    -0.0600815171
+1 N    -0.0000000000    -0.0000000000     0.0600815171
+----------------------------------------------
+3 Energy: -108.954593584
+3 Hessian update information:
+3 * Change: RMS: 0.603, max: 0.603
+3 Trust update: Fletcher's parameter: 5.57
+3 Linear interpolation:
+3 * Energies: -108.95459, -108.95048
+3 * Derivatives: -0.00599, 0.0155
+3 * Quartic interpolation was performed: t = 0.317
+3 * Interpolated energy: -108.95556
+3 Pure RFO step was performed:
+3 * Trust radius: 0.3
+3 * Number of negative eigenvalues: 0
+3 * Lowest eigenvalue: 2.16
+3 * lambda: -3.07e-05
+3 Quadratic step: RMS: 0.00377, max: 0.00377
+3 * Predicted energy change: -1.53e-05
+3 Total step: RMS: 0.0278, max: 0.0278
+3 Perfect transformation to cartesians in 2 iterations
+3 * RMS(dcart): 1.03e-16, RMS(dq): 8.88e-16
+3 Convergence criteria:
+3 * Gradient RMS: 0.0347 > 0.0003 => no
+3 * Gradient maximum: 0.0601 > 0.00045 => no
+3 * Step RMS: 0.0278 > 0.0012 => no
+3 * Step maximum: 0.0278 > 0.0018 => no
+New geometry (unit Bohr)
+   1 N      0.000000000000   0.000000000000   0.114066208409
+   2 N      0.000000000000   0.000000000000   2.153605141069
+
+
+******** <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> flags ********
+method = SCF_Scanner-RHF
+initial guess = minao
+damping factor = 0
+level shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+DIIS start cycle = 1
+DIIS space = 8
+SCF tol = 1e-09
+SCF gradient tol = None
+max. SCF cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = 
+max_memory 4000 MB (current use 106 MB)
+Set gradient conv threshold to 3.16228e-05
+init E= -108.981987679309
+  HOMO = -0.60689426233278  LUMO = 0.195767751918066
+cycle= 1 E= -108.955505280733  delta_E= 0.0265  |g|= 0.0127  |ddm|= 0.0229
+  HOMO = -0.61826285938536  LUMO = 0.183777219097869
+cycle= 2 E= -108.955542742386  delta_E= -3.75e-05  |g|= 0.00306  |ddm|= 0.0113
+  HOMO = -0.616014003907836  LUMO = 0.185620986682468
+cycle= 3 E= -108.955544747879  delta_E= -2.01e-06  |g|= 0.000333  |ddm|= 0.00275
+  HOMO = -0.616121093442983  LUMO = 0.185537809280605
+cycle= 4 E= -108.955544786819  delta_E= -3.89e-08  |g|= 2.17e-05  |ddm|= 0.000487
+  HOMO = -0.616113185152347  LUMO = 0.185547231128578
+cycle= 5 E= -108.955544786967  delta_E= -1.49e-10  |g|= 1.99e-06  |ddm|= 7.63e-05
+  HOMO = -0.616114265371014  LUMO = 0.185546322644078
+Extra cycle  E= -108.955544786969  delta_E= -1.31e-12  |g|= 4.24e-07  |ddm|= 1.3e-05
+converged SCF energy = -108.955544786969
+
+
+******** <class 'pyscf.grad.rhf.as_scanner.<locals>.SCF_GradScanner'> for <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> ********
+max_memory 4000 MB (current use 106 MB)
+--------------- SCF_Scanner gradients ---------------
+         x                y                z
+0 N     0.0000000000     0.0000000000    -0.0074794574
+1 N    -0.0000000000    -0.0000000000     0.0074794574
+----------------------------------------------
+4 Energy: -108.955544787
+4 Hessian update information:
+4 * Change: RMS: 0.269, max: 0.269
+4 Trust update: Fletcher's parameter: 62.0
+4 Linear interpolation:
+4 * Energies: -108.95554, -108.95459
+4 * Derivatives: 0.000208, 0.00167
+4 * Quartic interpolation was performed: t = -0.134
+4 * Interpolated energy: -108.95556
+4 Pure RFO step was performed:
+4 * Trust radius: 0.3
+4 * Number of negative eigenvalues: 0
+4 * Lowest eigenvalue: 1.89
+4 * lambda: -8.79e-08
+4 Quadratic step: RMS: 0.000216, max: 0.000216
+4 * Predicted energy change: -4.4e-08
+4 Total step: RMS: 0.00395, max: 0.00395
+4 Perfect transformation to cartesians in 2 iterations
+4 * RMS(dcart): 1.03e-16, RMS(dq): 8.88e-16
+4 Convergence criteria:
+4 * Gradient RMS: 0.00432 > 0.0003 => no
+4 * Gradient maximum: 0.00748 > 0.00045 => no
+4 * Step RMS: 0.00395 > 0.0012 => no
+4 * Step maximum: 0.00395 > 0.0018 => no
+New geometry (unit Bohr)
+   1 N      0.000000000000   0.000000000000   0.116042316264
+   2 N      0.000000000000   0.000000000000   2.151629033214
+
+
+******** <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> flags ********
+method = SCF_Scanner-RHF
+initial guess = minao
+damping factor = 0
+level shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+DIIS start cycle = 1
+DIIS space = 8
+SCF tol = 1e-09
+SCF gradient tol = None
+max. SCF cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = 
+max_memory 4000 MB (current use 106 MB)
+Set gradient conv threshold to 3.16228e-05
+init E= -108.959299275305
+  HOMO = -0.615724875825141  LUMO = 0.188140247132725
+cycle= 1 E= -108.955557946786  delta_E= 0.00374  |g|= 0.0018  |ddm|= 0.00325
+  HOMO = -0.617339619924854  LUMO = 0.186434635904232
+cycle= 2 E= -108.955558698851  delta_E= -7.52e-07  |g|= 0.000434  |ddm|= 0.00161
+  HOMO = -0.617021071345345  LUMO = 0.186695130305984
+cycle= 3 E= -108.955558739052  delta_E= -4.02e-08  |g|= 4.75e-05  |ddm|= 0.00039
+  HOMO = -0.617036367495808  LUMO = 0.186683260260623
+cycle= 4 E= -108.955558739844  delta_E= -7.91e-10  |g|= 3.09e-06  |ddm|= 6.93e-05
+  HOMO = -0.61703498267119  LUMO = 0.186684790135202
+Extra cycle  E= -108.955558739847  delta_E= -2.81e-12  |g|= 6.98e-07  |ddm|= 1.03e-05
+converged SCF energy = -108.955558739847
+
+
+******** <class 'pyscf.grad.rhf.as_scanner.<locals>.SCF_GradScanner'> for <class 'pyscf.scf.hf.as_scanner.<locals>.SCF_Scanner'> ********
+max_memory 4000 MB (current use 106 MB)
+--------------- SCF_Scanner gradients ---------------
+         x                y                z
+0 N    -0.0000000000    -0.0000000000     0.0004373342
+1 N     0.0000000000     0.0000000000    -0.0004373342
+----------------------------------------------
+5 Energy: -108.95555874
+5 Hessian update information:
+5 * Change: RMS: 0.111, max: 0.111
+5 Trust update: Fletcher's parameter: 3.17e+02
+5 Linear interpolation:
+5 * Energies: -108.95556, -108.95554
+5 * Derivatives: -1.73e-06, 2.96e-05
+5 * Quartic interpolation was performed: t = 0.0549
+5 * Interpolated energy: -108.95556
+5 Pure RFO step was performed:
+5 * Trust radius: 0.3
+5 * Number of negative eigenvalues: 0
+5 * Lowest eigenvalue: 2.0
+5 * lambda: -4.22e-12
+5 Quadratic step: RMS: 1.45e-06, max: 1.45e-06
+5 * Predicted energy change: -2.11e-12
+5 Total step: RMS: 0.000218, max: 0.000218
+5 Perfect transformation to cartesians in 2 iterations
+5 * RMS(dcart): 1.03e-16, RMS(dq): 8.88e-16
+5 Convergence criteria:
+5 * Gradient RMS: 0.000252 < 0.0003 => OK
+5 * Gradient maximum: 0.000437 < 0.00045 => OK
+5 * Step RMS: 0.000218 < 0.0012 => OK
+5 * Step maximum: 0.000218 < 0.0018 => OK
+5 * All criteria matched
+New geometry (unit Bohr)
+   1 N      0.000000000000   0.000000000000   0.116042316264
+   2 N      0.000000000000   0.000000000000   2.151629033214
+[[0.         0.         0.11604232]
+ [0.         0.         2.15162903]]

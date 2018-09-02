@@ -6,6 +6,22 @@ except ImportError:
     from berny import angstrom
     bohr = 1.0 / angstrom
 
+def file_wrapper(file, attr, mode='r', *args, **kwargs):
+    """
+    A wrapper funtion to deal with files
+
+    file    : input, file name or a file object
+    attr    : input, string, the function name to be called
+    mode    : opt input, file mode if file is a file name
+    rtn     : out, the result returned from attr(*args, **kwargs)
+    """
+    try:
+        rtn = getattr(file, attr)(*args, **kwargs)
+    except:
+        with open(file, mode) as f:
+            rtn = getattr(f, attr)(*args, **kwargs)
+    return rtn
+
 def get_coords(mol, unit="Angstrom"):
     """
     convert the output of pyscf.geomopt.optimize to atomic coordinates
@@ -35,18 +51,53 @@ def read_coords(file, format="xyz"):
               to build pyscf.gto.Mole
     """
     if format is None or format in ["xyz"]:
-        try:
-            # first two line discarded
-            atom_str = "".join(file.readlines()[2:]) 
-        except:
-            with open(file, "r") as f:
-                # first two line discarded
-                atom_str = "".join(f.readlines()[2:]) 
+        # first two line discarded
+        atom_str = "".join(file_wrapper(file, "readlines")[2:]) 
     else:
         print("read_coords: arg format=", unit, 
                 "is not recognized", file=stderr)
         raise ValueError
     return atom_str
+
+def extract_coords(logfile, remark="", ofile=None, format="xyz"):
+    r"""
+    generate coordinate files from a log file of a geometric optimization run
+
+    logfile : input, file object or filename, log file of geomopt
+    remark  : opt input, a short comment/explanation added to the file
+              should not contain '\n'
+    ofile   : opt input, file object or filename
+    format  : opt input, def=xyz, the only accepted format
+    coords  : out, string that could be written as a coordinate file
+    """
+    log = file_wrapper(logfile, "readlines")
+    for i, l in enumerate(log):
+        if "New geometry" in l:
+            last_idx = i + 1
+    coords = ""
+    natom = 0
+    if format is None or format in ["xyz"]:
+        for i in range(last_idx, len(log)):
+            if log[i].strip() == "":
+                break
+            idx, coord = log[i].split(None, 1) # rm 1st word
+            try:
+                if int(idx) == natom + 1:
+                    coords += coord
+                    natom += 1
+            except:
+                break
+        if coords == "":
+            print("No geometry found", file=stderr)
+            raise RuntimeError
+        coords = "{}\n{}\n{}".format(natom, remark, coords)
+    else:
+        print("extract_coords: arg format=", format, 
+                "is not recognized", file=stderr)
+        raise ValueError
+    if ofile is not None:
+        file_wrapper(ofile, "writelines", "w", coords)
+    return coords
 
 #def gen_ccsd_t_energy_gradient(mol):
 #    """

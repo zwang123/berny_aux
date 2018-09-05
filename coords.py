@@ -37,7 +37,8 @@ def read_coords(file, format="xyz"):
     """
     if format is None or format in ["xyz"]:
         # first two line discarded
-        atom_str = "".join(file_wrapper(file, "readlines")[2:]) 
+        lines = file_wrapper(file, "readlines")[2:]
+        atom_str = "".join([l for l in lines if l.strip() != ""]) 
     else:
         print("read_coords: arg format=", unit, 
                 "is not recognized", file=stderr)

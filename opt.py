@@ -1,6 +1,6 @@
 from pyscf import gto, scf, cc, geomopt, lib
 from berny_aux import read_coords, get_coords
-from sys import argv, stderr
+from sys import stderr
 import time
 
 def geometry_optimization(xyzname, charge, basis='6311++g**', verbose=9,

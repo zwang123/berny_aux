@@ -1,4 +1,5 @@
 from berny_aux import *
+from berny_aux import opt
 from pyscf import gto
 from sys import stdout
 
@@ -15,3 +16,5 @@ print(get_coords(mol, unit="B"))
 print(get_coords(mol, unit="Bohr"))
 print(extract_coords(log, remark="N2", ofile=None))
 extract_coords(log, remark="  N2", ofile=stdout)
+
+opt.geometry_optimization(xyz, 0)

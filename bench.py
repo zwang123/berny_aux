@@ -1,3 +1,6 @@
+# TODO Has to use time.clock() and time.time() to do timing because that's 
+#      how pyscf implements
+
 from pyscf import gto, dft, scf, cc, lib
 from pyscf.dft.libxc import VV10_XC
 from berny_aux import read_coords
@@ -20,9 +23,10 @@ def run_dft(mol, xclist):
     for xc in xclist:
         mf.xc = xc
         mf.nlc = 'VV10' if xc in VV10_XC else ''
-        t0 = time.perf_counter()
+        t0 = time.clock()
+        w0 = time.time()
         mf.kernel()
-        log.timer(mf.xc, t0)
+        log.timer(mf.xc, t0, w0)
     return mol
 
 def run_ccsd(mol, chkfile):
@@ -31,13 +35,14 @@ def run_ccsd(mol, chkfile):
 
     mol     : input/output, a pyscf.gto.Mole object
     """
-    t0 = time.perf_counter()
+    t0 = time.clock()
+    w0 = time.time()
     mf = scf.RHF(mol).set(chkfile=chkfile).run()
     mycc = cc.CCSD(mf).run()
     if chkfile:
         lib.chkfile.save(chkfile, 'cc/t1', mycc.t1)
         lib.chkfile.save(chkfile, 'cc/t2', mycc.t2)
-    log.timer('CCSD', t0)
+    log.timer('CCSD', t0, w0)
     return mycc
 
 def run_ccsd_t(mol):
@@ -46,12 +51,13 @@ def run_ccsd_t(mol):
 
     mol     : input/output, a pyscf.gto.Mole object
     """
-    t0 = time.perf_counter()
+    t0 = time.clock()
+    w0 = time.time()
     mf = scf.RHF(mol).run()
     mycc = cc.CCSD(mf).run()
     et = mycc.ccsd_t()
     print('CCSD(T) correlation energy', mycc.e_corr + et)
-    log.timer('CCSD(T)', t0)
+    log.timer('CCSD(T)', t0, w0)
     return mol
 
 def benchmark(xyzname, charge, 

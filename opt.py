@@ -30,11 +30,12 @@ def geometry_optimization(xyzname, charge, basis='6311++g**', verbose=9,
     
     # TODO replace clock with updated versions
     t0 = time.clock()
+    w0 = time.time()
     mycc = cc.CCSD(scf.RHF(mol))
     opt_mol = geomopt.optimize(mycc, assert_convergence=True, dihedral=dihedral,
                                verbose=verbose, **kwargs)
     opt_coord = get_coords(opt_mol, unit="Angstrom")
-    log.timer('opt CCSD', t0)
+    log.timer('opt CCSD', t0, w0)
     
     print(opt_coord)
 

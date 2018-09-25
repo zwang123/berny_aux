@@ -83,7 +83,7 @@ def benchmark(xyzname, charge,
     
     run_dft(mol, xclist)
 
-    if perturbative_t=True:
+    if perturbative_t:
         run_ccsd_t(mol)
     else:
         run_ccsd(mol, chkfile=chkfile)

@@ -19,12 +19,26 @@ def run_dft(mol, xclist):
 
     for xc in xclist:
         mf.xc = xc
-        # TODO not use clock()
         mf.nlc = 'VV10' if xc in VV10_XC else ''
-        t0 = time.clock()
+        t0 = time.perf_counter()
         mf.kernel()
         log.timer(mf.xc, t0)
     return mol
+
+def run_ccsd(mol, chkfile):
+    """
+    run CCSD
+
+    mol     : input/output, a pyscf.gto.Mole object
+    """
+    t0 = time.perf_counter()
+    mf = scf.RHF(mol).set(chkfile=chkfile).run()
+    mycc = cc.CCSD(mf).run()
+    if chkfile:
+        lib.chkfile.save(chkfile, 'cc/t1', mycc.t1)
+        lib.chkfile.save(chkfile, 'cc/t2', mycc.t2)
+    log.timer('CCSD', t0)
+    return mycc
 
 def run_ccsd_t(mol):
     """
@@ -32,8 +46,7 @@ def run_ccsd_t(mol):
 
     mol     : input/output, a pyscf.gto.Mole object
     """
-    # TODO not use clock()
-    t0 = time.clock()
+    t0 = time.perf_counter()
     mf = scf.RHF(mol).run()
     mycc = cc.CCSD(mf).run()
     et = mycc.ccsd_t()
@@ -44,7 +57,9 @@ def run_ccsd_t(mol):
 def benchmark(xyzname, charge, 
         xclist = ["SCAN", "REVSCAN", 
                   "SCAN_VV10", "SCAN_RVV10", "REVSCAN_VV10"], 
-        basis='augccpvtz', verbose=9, **kwargs):
+        basis='augccpvtz', verbose=9, 
+        perturbative_t=True, chkfile=None, 
+        **kwargs):
     """
     benchmark a molecule
 
@@ -67,5 +82,10 @@ def benchmark(xyzname, charge,
             , **kwargs)
     
     run_dft(mol, xclist)
-    run_ccsd_t(mol)
+
+    if perturbative_t=True:
+        run_ccsd_t(mol)
+    else:
+        run_ccsd(mol, chkfile=chkfile)
+
     return mol

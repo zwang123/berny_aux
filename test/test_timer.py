@@ -3,21 +3,20 @@ from time import process_time, sleep
 # importing the required module 
 import timeit 
 
+# code snippet to be executed only once 
+mysetup = """
+from multiprocessing import Pool
+from os import cpu_count
+from math import sqrt
+"""
+      
+# code snippet whose execution time is to be measured 
+mycode = """
+with Pool() as p:
+    result = (p.map(sqrt, list(range(cpu_count()))))
+"""
 
 if __name__ == '__main__':
-      
-    # code snippet to be executed only once 
-    mysetup = """
-    from multiprocessing import Pool
-    from os import cpu_count
-    from math import sqrt
-    """
-          
-    # code snippet whose execution time is to be measured 
-    mycode = """
-    with Pool() as p:
-        result = (p.map(sqrt, list(range(cpu_count()))))
-    """
     
     eval(repr(Time()))
 

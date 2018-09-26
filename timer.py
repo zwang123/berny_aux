@@ -6,24 +6,28 @@ class Timer(object):
         func call overhead < 0.05 ms unless len(self.split_time) > 10000
     """
 
-    def __init__(self, msg=''):
+    def __init__(self, msg='', print_split=False):
         """ initialize and reset a timer """
         self.msg = msg
+        self.print_split = print_split
         self.reset()
 
     def __str__(self):
         elapsed = self.elapsed_time
         split = self.split_time
         for_msg = ' for ' + self.msg if self.msg else ''
-        return \
+        rtn = \
         '    total    : wall time{} {:10.3f} sec, process time {:10.3f} sec\n' \
-                .format(for_msg, 
-                        elapsed.wall_time, elapsed.process_time) + \
-        '\n'.join(
-        '    split {:3d}: wall time{} {:10.3f} sec, process time {:10.3f} sec' \
-                .format(i, for_msg, t.wall_time, t.process_time) \
-                for i, t in enumerate(split)
-        )
+                .format(for_msg, elapsed.wall_time, elapsed.process_time)
+        if self.print_split:
+            rtn += \
+                '\n'.join(
+                ('    split {:3d}: wall time{} {:10.3f} sec,'+\
+                        ' process time {:10.3f} sec') \
+                        .format(i, for_msg, t.wall_time, t.process_time) \
+                        for i, t in enumerate(split)
+                )
+        return rtn
 
     def reset(self):
         """ reset to zero, clear split, and stop """

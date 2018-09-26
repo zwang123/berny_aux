@@ -1,7 +1,7 @@
 from pyscf import gto, scf, cc, geomopt, lib
 from berny_aux import read_coords, get_coords
+from berny_aux.timer import Timer
 from sys import stderr
-import time
 
 def geometry_optimization(xyzname, charge, basis='6311++g**', verbose=9,
                           dihedral=False, **kwargs):
@@ -28,14 +28,12 @@ def geometry_optimization(xyzname, charge, basis='6311++g**', verbose=9,
             , verbose=verbose
             , basis=basis)
     
-    # TODO replace clock with updated versions
-    t0 = time.clock()
-    w0 = time.time()
+    t = Timer('opt CCSD').start()
     mycc = cc.CCSD(scf.RHF(mol))
     opt_mol = geomopt.optimize(mycc, assert_convergence=True, dihedral=dihedral,
                                verbose=verbose, **kwargs)
     opt_coord = get_coords(opt_mol, unit="Angstrom")
-    log.timer('opt CCSD', t0, w0)
+    print(t)
     
     print(opt_coord)
 
